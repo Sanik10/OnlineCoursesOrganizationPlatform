@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineCoursesOrganizationPlatform.Models
 {
-    public class Action
+    public class Actions
     {
+        [Key]
         public int ActionId { get; set; }
         public string ActionType { get; set; }
         public string EntityType { get; set; }

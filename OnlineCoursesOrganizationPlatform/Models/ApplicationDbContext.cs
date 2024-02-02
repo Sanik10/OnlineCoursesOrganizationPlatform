@@ -10,7 +10,7 @@ namespace OnlineCoursesOrganizationPlatform.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<Action> Actions { get; set; }
+        public DbSet<Actions> Actions { get; set; }
         public DbSet<CourseRating> CourseRatings { get; set; }
         public DbSet<CourseMaterial> CourseMaterials { get; set; }
 

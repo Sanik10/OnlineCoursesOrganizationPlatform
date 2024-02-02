@@ -26,11 +26,17 @@ namespace OnlineCoursesOrganizationPlatform
             host.Run();
         }
 
+        //public static IHostBuilder CreateHostBuilder(string[] args) =>
+        //Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+        //{
+        //    webBuilder.UseStartup<Startup>();
+        //    webBuilder.UseUrls("http://localhost:7000");
+        //});
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+        });
     }
 }

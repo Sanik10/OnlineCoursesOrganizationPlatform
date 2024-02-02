@@ -29,7 +29,7 @@ namespace OnlineCoursesOrganizationPlatform
             services.AddControllersWithViews();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Online courses organization platform", Version = "v1" });
             });
             // Добавьте другие сервисы, если необходимо
         }
@@ -79,7 +79,7 @@ namespace OnlineCoursesOrganizationPlatform
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Online courses organization platform V1");
             });
         }
     }
