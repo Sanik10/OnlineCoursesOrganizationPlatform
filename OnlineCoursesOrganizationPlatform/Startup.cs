@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
 using OnlineCoursesOrganizationPlatform.Models;
+using Microsoft.OpenApi.Models;
 
 namespace OnlineCoursesOrganizationPlatform
 {
@@ -26,7 +27,28 @@ namespace OnlineCoursesOrganizationPlatform
                     new MySqlServerVersion(new Version(8, 0, 28))));
 
             services.AddControllersWithViews();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+            });
             // Добавьте другие сервисы, если необходимо
+        }
+
+        private void CheckDatabaseConnection(IServiceProvider serviceProvider)
+        {
+            using (var context = serviceProvider.GetRequiredService<ApplicationDbContext>())
+            {
+                try
+                {
+                    context.Database.OpenConnection();
+                    context.Database.CloseConnection();
+                    Console.WriteLine("Database connection successful!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error connecting to the database: " + ex.Message);
+                }
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -53,6 +75,11 @@ namespace OnlineCoursesOrganizationPlatform
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
             });
         }
     }

@@ -14,8 +14,6 @@ namespace OnlineCoursesOrganizationPlatform.Models
         public DbSet<CourseRating> CourseRatings { get; set; }
         public DbSet<CourseMaterial> CourseMaterials { get; set; }
 
-        // Методы для работы с данными
-
         // Пример метода для выборки пользователей по имени
         public User GetUserByName(string firstName, string lastName)
         {
