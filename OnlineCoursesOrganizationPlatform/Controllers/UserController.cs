@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OnlineCoursesOrganizationPlatform.Models;
+using OnlineCoursesOrganizationPlatform.Services;
 //using OnlineCoursesOrganizationPlatform.Data;
 using System;
 using System.Linq;
@@ -14,11 +15,17 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly ApplicationDbContext _context;
+        // private readonly IUserService _userService;
+        // private readonly IJwtService _jwtService;
+        private readonly ITokenService _tokenService;
 
-        public UserController(ILogger<UserController> logger, ApplicationDbContext context)
+        public UserController(ILogger<UserController> logger, ApplicationDbContext context, ITokenService tokenService) //IUserService userService, IJwtService jwtService
         {
             _logger = logger;
             _context = context;
+            _tokenService = tokenService;
+            // _userService = userService;
+            // _jwtService = jwtService;
         }
 
         [HttpPost("Registration")]
@@ -26,11 +33,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Проверяем, есть ли уже пользователь с таким email
-                var existingUser = _context.Users.FirstOrDefault(u => u.Email == user.Email);
-                if (existingUser != null)
-                {
-                    return Conflict("Пользователь с таким email уже зарегистрирован!");
+                // Проверяем, существует ли пользователь с указанным айди
+                if (user.CreatedByUserId != null) { 
+                    var invitingUser = _context.Users.FirstOrDefault(u => u.UserId == user.CreatedByUserId);
+                    if (invitingUser == null)
+                    {
+                        return BadRequest("Нет пригласившего пользователя с указанным айди");
+                    }
                 }
 
                 // Добавляем дату создания
@@ -157,5 +166,32 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
 
             return Ok($"Пользователь {existingUser.FirstName} {existingUser.LastName} успешно удален");
         }
+
+        /*[HttpPost("Login")]
+        public IActionResult Login([FromBody] LoginRequest loginRequest)
+        {
+            // Проверка учетных данных пользователя
+            var user = _userService.Authenticate(loginRequest.Username, loginRequest.Password);
+
+            if (user == null)
+            {
+                return Unauthorized("Неверные учетные данные");
+            }
+
+            // Генерация токена доступа
+            var tokenString = _jwtService.GenerateToken(user);
+
+            // Возврат токена доступа клиенту
+            return Ok(new { Token = tokenString });
+        }
+
+        [HttpPost("Logout")]
+        public IActionResult Logout()
+        {
+            // Завершение сеанса пользователя
+            _userService.Logout();
+
+            return Ok("Вы успешно вышли из системы");
+        }*/
     }
 }

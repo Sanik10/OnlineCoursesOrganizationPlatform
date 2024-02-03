@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
 using OnlineCoursesOrganizationPlatform.Models;
 using Microsoft.OpenApi.Models;
+using OnlineCoursesOrganizationPlatform.Services;
 
 namespace OnlineCoursesOrganizationPlatform
 {
@@ -31,6 +32,14 @@ namespace OnlineCoursesOrganizationPlatform
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Online courses organization platform", Version = "v1" });
             });
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IJwtService>(provider =>
+            {
+                var configuration = provider.GetRequiredService<IConfiguration>();
+                var secretKey = configuration["Jwt:SecretKey"];
+                return new JwtService(secretKey);
+            });
+            services.AddSingleton<ITokenService, TokenService>();
             // Добавьте другие сервисы, если необходимо
         }
 
