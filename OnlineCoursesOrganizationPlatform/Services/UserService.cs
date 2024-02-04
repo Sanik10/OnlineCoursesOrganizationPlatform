@@ -8,7 +8,6 @@ namespace OnlineCoursesOrganizationPlatform.Services
     {
         User Authenticate(string email, string password);
         User GetById(int id);
-        void Logout();
     }
 
     public class UserService : IUserService
@@ -34,12 +33,6 @@ namespace OnlineCoursesOrganizationPlatform.Services
         public User GetById(int id)
         {
             return _context.Users.Find(id);
-        }
-
-        public void Logout()
-        {
-            // Реализуйте здесь логику выхода из системы, например, очистку текущего токена доступа или отзыв токена.
-            // Этот метод может быть пустым, если в вашем приложении не требуется специальных действий при выходе пользователя.
         }
     }
 }

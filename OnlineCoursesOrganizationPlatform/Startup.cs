@@ -32,7 +32,10 @@ namespace OnlineCoursesOrganizationPlatform
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Online courses organization platform", Version = "v1" });
             });
+            services.AddScoped<IActionService, ActionService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ICourseMaterialService, CourseMaterialService>();
             services.AddScoped<IJwtService>(provider =>
             {
                 var configuration = provider.GetRequiredService<IConfiguration>();

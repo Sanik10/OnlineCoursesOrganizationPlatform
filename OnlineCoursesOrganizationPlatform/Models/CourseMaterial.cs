@@ -12,5 +12,10 @@ namespace OnlineCoursesOrganizationPlatform.Models
         public string MaterialType { get; set; }
         public string FilePath { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public int? DeletedByUserId { get; set; }
+        public int CreatedByUserId { get; set; }
+        public int? UpdatedByUserId { get; set; }
     }
 }

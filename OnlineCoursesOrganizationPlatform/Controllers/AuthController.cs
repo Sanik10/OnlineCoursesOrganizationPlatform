@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineCoursesOrganizationPlatform.Models;
 using OnlineCoursesOrganizationPlatform.Services;
 
@@ -12,24 +14,26 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
+        private readonly ApplicationDbContext _context;
+        private readonly IActionService _actionService;
 
-        public AuthController(ITokenService tokenService, IUserService userService, IJwtService jwtService)
+        public AuthController(ITokenService tokenService, IUserService userService, IJwtService jwtService, ApplicationDbContext context, IActionService actionService)
         {
             _tokenService = tokenService;
             _userService = userService;
             _jwtService = jwtService;
+            _context = context;
+            _actionService = actionService;
         }
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest loginRequest)
         {
-            // Проверяем наличие токена
             if (!string.IsNullOrEmpty(_tokenService.Token))
             {
                 // Если токен уже есть, возвращаем соответствующее сообщение
                 return Ok("Вы уже в системе!");
             }
-
             // Ваша логика аутентификации
             var user = _userService.Authenticate(loginRequest.Username, loginRequest.Password);
 
@@ -44,6 +48,9 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             // Сохранение токена в сервисе
             _tokenService.Token = tokenString;
 
+            // Добавляем запись о регистрации в систему действий
+            _actionService.LogAction("login", "user", user.UserId, user.UserId);
+
             // Возврат токена доступа клиенту
             return Ok(new { Token = tokenString });
         }
@@ -51,10 +58,40 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         [HttpPost("logout")]
         public IActionResult Logout()
         {
+            if (string.IsNullOrEmpty(_tokenService.Token))
+            {
+                return Ok("Для начала войдите или зарегистрируйтесь");
+            }
+            // Получаем токен из заголовка запроса
+            string token = _tokenService.Token;
+
+            // Расшифровываем токен, чтобы получить информацию о пользователе
+            var userId = ExtractUserIdFromToken(token);
+
             // Удаление токена из сервиса при выходе
             _tokenService.Token = null;
 
+            // Добавляем запись о регистрации в систему действий
+            _actionService.LogAction("logout", "user", userId, userId);
+
             return Ok("Вы успешно вышли из системы");
+        }
+
+        // извлечение Айди пользователя из токена
+        [HttpGet("extract-user-id")]
+        public int ExtractUserIdFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var decodedToken = tokenHandler.ReadJwtToken(token);
+
+            var userIdClaim = decodedToken.Claims.FirstOrDefault(c => c.Type == "sub");
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return userId;
+            }
+
+            // Если айди не найден или не может быть преобразован, вернуть значение по умолчанию или выбросить исключение.
+            throw new InvalidOperationException("Unable to extract user id from token.");
         }
     }
 }
