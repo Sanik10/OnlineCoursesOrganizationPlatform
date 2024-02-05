@@ -13,6 +13,8 @@ namespace OnlineCoursesOrganizationPlatform.Models
         public DbSet<Actions> Actions { get; set; }
         public DbSet<CourseRating> CourseRatings { get; set; }
         public DbSet<CourseMaterial> CourseMaterials { get; set; }
+        public DbSet<UserProgress> UserProgress { get; set; }
+
 
         // Пример метода для выборки пользователей по имени
         public User GetUserByName(string firstName, string lastName)

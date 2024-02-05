@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-// using OnlineCoursesOrganizationPlatform.Data;
 using OnlineCoursesOrganizationPlatform.Models;
 
 namespace OnlineCoursesOrganizationPlatform

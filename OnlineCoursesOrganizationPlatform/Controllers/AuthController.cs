@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using OnlineCoursesOrganizationPlatform.Models;
 using OnlineCoursesOrganizationPlatform.Services;
 
+
 namespace OnlineCoursesOrganizationPlatform.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
@@ -26,8 +26,9 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _actionService = actionService;
         }
 
+        // Login для генерации токена
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest loginRequest)
+        public IActionResult Login(LoginRequest loginRequest)
         {
             if (!string.IsNullOrEmpty(_tokenService.Token))
             {
@@ -35,7 +36,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
                 return Ok("Вы уже в системе!");
             }
             // Ваша логика аутентификации
-            var user = _userService.Authenticate(loginRequest.Username, loginRequest.Password);
+            var user = _userService.Authenticate(loginRequest.Email, loginRequest.Password);
 
             if (user == null)
             {
@@ -52,9 +53,10 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _actionService.LogAction("login", "user", user.UserId, user.UserId);
 
             // Возврат токена доступа клиенту
-            return Ok(new { Token = tokenString });
+            return Ok($"Добро пожаловать! Ваш токен успешно сохранен в системе! \nВаш токен:{tokenString}");
         }
 
+        // Login для удаления токена
         [HttpPost("logout")]
         public IActionResult Logout()
         {

@@ -19,6 +19,7 @@ namespace OnlineCoursesOrganizationPlatform.Services
             _context = context;
         }
 
+        // Получение информации о пользователе из БД
         public User Authenticate(string email, string password)
         {
             var user = _context.Users.SingleOrDefault(x => x.Email == email && x.Password == password);
@@ -30,6 +31,7 @@ namespace OnlineCoursesOrganizationPlatform.Services
             return user;
         }
 
+        // Получение информации о пользователе из БД
         public User GetById(int id)
         {
             return _context.Users.Find(id);

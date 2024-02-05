@@ -8,15 +8,14 @@ using System.Linq;
 namespace OnlineCoursesOrganizationPlatform.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly ICourseService _courseService;
+        private readonly CourseService _courseService;
         private readonly ITokenService _tokenService;
         private readonly IActionService _actionService;
         private readonly ApplicationDbContext _context;
 
-        public CourseController(ICourseService courseService, ITokenService tokenService, ApplicationDbContext context, IActionService actionService)
+        public CourseController(CourseService courseService, ITokenService tokenService, ApplicationDbContext context, IActionService actionService)
         {
             _courseService = courseService;
             _tokenService = tokenService;
@@ -24,103 +23,138 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _actionService = actionService;
         }
 
-        [HttpGet("all-courses")]
+        [HttpGet("get-all-courses")]
         public IActionResult GetAllCourses()
         {
-            var courses = _courseService.GetAllCourses();
-            return Ok(courses);
-        }
-
-        [HttpGet("all-active-courses")]
-        public IActionResult GetAllActiveCourses()
-        {
-            var courses = _courseService.GetAllActiveCourses();
-            return Ok(courses);
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetCourseById(int id)
-        {
-            var course = _courseService.GetCourseById(id);
+            IEnumerable<Course> course = _courseService.GetAllElements();
             if (course == null)
             {
-                return NotFound();
+                return NotFound("Курсов не найдено");
+            }
+            return Ok(course);
+        }
+
+        [HttpGet("get-all-active-courses")]
+        public IActionResult GetAllActiveCourses()
+        {
+            IEnumerable<Course> courses = _courseService.GetAllActiveElements();
+            if(courses == null)
+            {
+                return NotFound("Курсов не найдено");
+            }
+            return Ok(courses);
+        }
+
+        [HttpGet("get-all-courses-by-name")]
+        public IActionResult GetAllCoursesByName(string elementName)
+        {
+            IEnumerable<Course> courses = _courseService.GetAllElementsByName(elementName);
+            if (courses == null)
+            {
+                return NotFound("Курсов не найдено");
+            }
+            return Ok(courses);
+        }
+
+        [HttpGet("get-all-active-courses-by-name")]
+        public IActionResult GetAllActiveCoursesByName(string elementName)
+        {
+            IEnumerable<Course> courses = _courseService.GetAllActiveElementsByName(elementName);
+            if (courses == null)
+            {
+                return NotFound("Курсов не найдено");
+            }
+            return Ok(courses);
+        }
+
+        [HttpGet("get-course-by-id")]
+        public IActionResult GetCourseById(int id)
+        {
+            if(id < 0)
+            {
+                return BadRequest("Введите корректный индекс");
+            }
+            var course = _courseService.GetElementById(id);
+            if (course == null)
+            {
+                return NotFound("Курс с указанным идентификатором не найден.");
             }
             return Ok(course);
         }
 
         [HttpPost("create-course")]
-        public IActionResult AddCourse([FromBody] CourseDto courseDto)
+        public IActionResult AddCourse(CourseDto courseDto)
         {
+            // Проверка наличия токена
             if (string.IsNullOrEmpty(_tokenService.Token))
             {
                 return Ok("Для начала войдите или зарегистрируйтесь");
             }
+            int userId = this.ExtractUserIdFromToken(_tokenService.Token);
 
-            string token = _tokenService.Token;
-            var userId = ExtractUserIdFromToken(token);
-
-            var course = new Course
+            if (courseDto.CategoryId == null)
             {
-                CourseName = courseDto.CourseName,
-                Description = courseDto.Description,
-                CreatedByUserId = userId,
-                DeletedByUserId = null,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = null
-            };
+                return BadRequest("Категория курса должна быть указана");
+            }
 
-            _courseService.CreateCourse(course, userId);
+            var category = _context.Categories.FirstOrDefault(c => c.CategoryId == courseDto.CategoryId);
+            if(category == null)
+            {
+                return BadRequest("Указан неправильный идентификатор категории. \nПодсказка: на вкладке Category вы можете узнать все доступные категории \nнажав на кнопку get-all-categories");
+            }
 
-            _actionService.LogAction("create", "course", course.CourseId, userId);
+            int courseId = _courseService.AddElement(courseDto, userId);
+
+            _actionService.LogAction("create", "course", courseId, userId);
 
             return Ok("Курс успешно создан!");
         }
 
-        [HttpPut("edit-course/{id}")]
-        public IActionResult UpdateCourse(int id, [FromBody] CourseEditRequestDto courseDto)
+        [HttpPut("edit-course")]
+        public IActionResult UpdateCourse(int courseId, CourseDto courseDto)
         {
+            // Проверка наличия токена
             if (string.IsNullOrEmpty(_tokenService.Token))
             {
                 return Ok("Для начала войдите или зарегистрируйтесь");
             }
-            var course = _courseService.GetCourseById(id);
-            if (course == null)
+            int userId = this.ExtractUserIdFromToken(_tokenService.Token);
+
+            var category = _courseService.GetElementById(courseId);
+            if (category == null)
             {
-                return NotFound("Курса под таким номером не найдено");
+                return NotFound("Курс для редактирования с таким индексом не найден. \nПодсказка: воспользуйтесь кнопкой get-all-active-courses для поиска нужного вам.");
             }
 
-            course.CourseName = courseDto.CourseName;
-            course.Description = courseDto.Description;
-            course.UpdatedAt = DateTime.UtcNow;
+            _courseService.UpdateElement(courseId, courseDto, userId);
 
-            _courseService.UpdateCourse(id, courseDto, ExtractUserIdFromToken(_tokenService.Token));
-
-            _actionService.LogAction("update", "course", id, ExtractUserIdFromToken(_tokenService.Token));
+            _actionService.LogAction("update", "course", courseId, userId);
 
             return Ok("Курс успешно изменён!");
         }
 
-        [HttpDelete("delete-course/{id}")]
+        [HttpDelete("delete-course")]
         public IActionResult DeleteCourse(int id)
         {
+            // Проверка наличия токена
             if (string.IsNullOrEmpty(_tokenService.Token))
             {
                 return Ok("Для начала войдите или зарегистрируйтесь");
             }
-            var existingCourse = _courseService.GetCourseById(id);
+            int userId = this.ExtractUserIdFromToken(_tokenService.Token);
+
+            var existingCourse = _courseService.GetElementById(id);
             if (existingCourse == null)
             {
                 return NotFound("Такого курса не существует!");
             }
 
-            _courseService.DeleteCourse(id, ExtractUserIdFromToken(_tokenService.Token));
-            _actionService.LogAction("delete", "course", id, ExtractUserIdFromToken(_tokenService.Token));
+            _courseService.DeleteElement(id, userId);
+            _actionService.LogAction("delete", "course", id, userId);
             return Ok("Курс удален");
         }
 
-        [HttpGet("extract-user-id")]
-        public int ExtractUserIdFromToken(string token)
+        private int ExtractUserIdFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var decodedToken = tokenHandler.ReadJwtToken(token);

@@ -17,6 +17,7 @@ namespace OnlineCoursesOrganizationPlatform.Services
             _context = context;
         }
 
+        // Создание лога в журнал
         public void LogAction(string actionType, string entityType, int entityId, int userId)
         {
             var action = new Actions

@@ -8,7 +8,6 @@ using System.Linq;
 
 namespace OnlineCoursesOrganizationPlatform.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
@@ -29,12 +28,19 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _userService = userService;
         }
 
-        [HttpPost("Registration")]
-        public IActionResult UserRegistration([FromBody] UserRegistrationRequest userRegistrationRequest)
+        [HttpPost("registration")]
+        public IActionResult UserRegistration(UserRegistrationRequest userRegistrationRequest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Некорректные данные пользователя");
+            }
+
+            // Проверяем, существует ли уже пользователь с таким email
+            var existingUser = _context.Users.FirstOrDefault(u => u.Email.ToLower() == userRegistrationRequest.Email.ToLower());
+            if (existingUser != null)
+            {
+                return BadRequest("Пользователь с таким email уже зарегистрирован");
             }
 
             var newUser = new User
@@ -63,8 +69,8 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok($"Вы успешно зарегистрированы! Добро пожаловать, {newUser.FirstName} {newUser.LastName}!");
         }
 
-        [HttpPost("EditData")]
-        public IActionResult EditUser([FromBody] UserUpdateRequest userUpdateRequest)
+        [HttpPut("edit-data")]
+        public IActionResult EditUser(UserUpdateRequest userUpdateRequest)
         {
             int userId = ExtractUserIdFromToken(_tokenService.Token);
             var existingUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
@@ -83,8 +89,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
                 return BadRequest("Новый пароль должен отличаться от старого!");
             }
 
-            existingUser.FirstName = userUpdateRequest.FirstName;
-            existingUser.LastName = userUpdateRequest.LastName;
+            if (userUpdateRequest.FirstName != null)
+                existingUser.FirstName = userUpdateRequest.FirstName;
+            if (userUpdateRequest.LastName != null)
+                existingUser.LastName = userUpdateRequest.LastName;
+            if (userUpdateRequest.Email != null)
+                existingUser.Email = userUpdateRequest.Email;
             existingUser.Password = userUpdateRequest.NewPassword;
             existingUser.UpdatedAt = DateTime.UtcNow;
 
@@ -95,8 +105,8 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok($"Данные пользователя {existingUser.FirstName} {existingUser.LastName} успешно обновлены");
         }
 
-        [HttpPost("Delete")]
-        public IActionResult DeleteUser([FromBody] UserDeleteRequest userDeleteRequest)
+        [HttpDelete("delete")]
+        public IActionResult DeleteUser(UserDeleteRequest userDeleteRequest)
         {
             int userId = ExtractUserIdFromToken(_tokenService.Token);
             var existingUser = _context.Users.FirstOrDefault(u => u.UserId == userId);

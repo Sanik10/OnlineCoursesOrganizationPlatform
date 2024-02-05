@@ -25,6 +25,7 @@ namespace OnlineCoursesOrganizationPlatform.Services
             _secretKey = secretKey;
         }
 
+        // Генерация токена
         public string GenerateToken(User user)
         {
             // Создаем утверждения (claims) для токена
@@ -55,6 +56,7 @@ namespace OnlineCoursesOrganizationPlatform.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        // валидация токена (активен он или нет)
         public bool ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

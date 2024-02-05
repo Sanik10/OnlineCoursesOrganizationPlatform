@@ -34,8 +34,8 @@ namespace OnlineCoursesOrganizationPlatform
             });
             services.AddScoped<IActionService, ActionService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICourseService, CourseService>();
-            services.AddScoped<ICourseMaterialService, CourseMaterialService>();
+            services.AddScoped<CourseService>();
+            services.AddScoped<CourseMaterialService>();
             services.AddScoped<IJwtService>(provider =>
             {
                 var configuration = provider.GetRequiredService<IConfiguration>();
@@ -43,6 +43,9 @@ namespace OnlineCoursesOrganizationPlatform
                 return new JwtService(secretKey);
             });
             services.AddSingleton<ITokenService, TokenService>();
+            services.AddScoped<CategoryService>();
+            services.AddScoped<CourseRatingsService>();
+            services.AddScoped<UserProgressService>();
             // Добавьте другие сервисы, если необходимо
         }
 
