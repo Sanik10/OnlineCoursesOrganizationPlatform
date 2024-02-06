@@ -17,7 +17,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _tokenService = tokenService;
         }
 
-        // Обновление прогресса
+        /// <summary>
+        /// Изменение прогресса
+        /// </summary>
+        /// <returns></returns>
+        /// <param name="UserProgressUpdateRequest">Модель запроса на изменение прогресса изучения</param>
+
+        // POST api/<UserProgressController>
         [HttpPost("update-progress")]
         public IActionResult UpdateProgress(UserProgressUpdateRequest progressRequest)
         {
@@ -33,7 +39,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Прогресс успешно обновлен.");
         }
 
-        // Получение прогресса у юзера
+        /// <summary>
+        /// Получение прогресса у пользователя
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserProgressController>
         [HttpPost("get-user-progress")]
         public IActionResult GetProgress()
         {
@@ -49,6 +60,10 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(userProgresses);
         }
 
+        /// <summary>
+        /// Извлечение айди из токена
+        /// </summary>
+        /// <returns></returns>
         private int ExtractUserIdFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

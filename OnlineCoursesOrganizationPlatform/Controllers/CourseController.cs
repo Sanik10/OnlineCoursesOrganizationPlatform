@@ -2,6 +2,7 @@
 using OnlineCoursesOrganizationPlatform.Models;
 using OnlineCoursesOrganizationPlatform.Services;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 
@@ -23,6 +24,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _actionService = actionService;
         }
 
+        /// <summary>
+        /// Получение всех курсов
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseController>
         [HttpGet("get-all-courses")]
         public IActionResult GetAllCourses()
         {
@@ -34,6 +41,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(course);
         }
 
+        /// <summary>
+        /// Получение всех активных курсов
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseController>
         [HttpGet("get-all-active-courses")]
         public IActionResult GetAllActiveCourses()
         {
@@ -45,6 +58,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(courses);
         }
 
+        /// <summary>
+        /// Получение всех курсов по имени
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseController>
         [HttpGet("get-all-courses-by-name")]
         public IActionResult GetAllCoursesByName(string elementName)
         {
@@ -56,6 +75,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(courses);
         }
 
+        /// <summary>
+        /// Получение всех активных курсов по имени
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseController>
         [HttpGet("get-all-active-courses-by-name")]
         public IActionResult GetAllActiveCoursesByName(string elementName)
         {
@@ -67,6 +92,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(courses);
         }
 
+        /// <summary>
+        /// Получение всех курсов по индексу
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseController>
         [HttpGet("get-course-by-id")]
         public IActionResult GetCourseById(int id)
         {
@@ -82,6 +113,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(course);
         }
 
+        /// <summary>
+        /// Создание курса
+        /// </summary>
+        /// <param name="CourseDto">Модель запроса на создание курса</param>
+        /// <returns></returns>
+
+        // POST api/<CourseController>
         [HttpPost("create-course")]
         public IActionResult AddCourse(CourseDto courseDto)
         {
@@ -110,8 +148,15 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Курс успешно создан!");
         }
 
+        /// <summary>
+        /// Редактирование курса
+        /// </summary>
+        /// /// <param name="CourseDto">Модель редактирование на создание курса</param>
+        /// <returns></returns>
+
+        // PUT api/<CourseController>
         [HttpPut("edit-course")]
-        public IActionResult UpdateCourse(int courseId, CourseDto courseDto)
+        public IActionResult UpdateCourse([Required] int courseId, CourseDto courseDto)
         {
             // Проверка наличия токена
             if (string.IsNullOrEmpty(_tokenService.Token))
@@ -133,8 +178,14 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Курс успешно изменён!");
         }
 
+        /// <summary>
+        /// Удаление курса
+        /// </summary>
+        /// <returns></returns>
+
+        // DELETE api/<CourseController>
         [HttpDelete("delete-course")]
-        public IActionResult DeleteCourse(int id)
+        public IActionResult DeleteCourse([Required]int id)
         {
             // Проверка наличия токена
             if (string.IsNullOrEmpty(_tokenService.Token))
@@ -154,6 +205,10 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Курс удален");
         }
 
+        /// <summary>
+        /// Извлечение айди из токена
+        /// </summary>
+        /// <returns></returns>
         private int ExtractUserIdFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

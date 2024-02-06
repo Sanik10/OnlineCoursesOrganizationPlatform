@@ -29,10 +29,10 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// <summary>
         /// Вход в аккаунт
         /// </summary>
-        /// <param name="LoginRequest">Пользователь</param>
+        /// <param name="LoginRequest">Модель запроса на вход в аккаунт</param>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // POST api/<AuthController>
         [HttpPost("login")]
         public IActionResult Login(LoginRequest loginRequest)
         {
@@ -67,7 +67,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// </summary>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // POST api/<AuthController>
         [HttpPost("logout")]
         public IActionResult Logout()
         {
@@ -95,7 +95,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// </summary>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // POST api/<AuthController>
         [HttpGet("extract-user-id")]
         public int ExtractUserIdFromToken(string token)
         {

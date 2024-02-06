@@ -22,6 +22,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _courseRatingsService = courseRatingsService;
         }
 
+        /// <summary>
+        /// Получение всех оценок
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseRatingController>
         [HttpGet("get-all-ratings")]
         public IActionResult GetAllRatings()
         {
@@ -33,6 +39,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(course);
         }
 
+        /// <summary>
+        /// Получение всех активных оценок
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseRatingController>
         [HttpGet("get-all-active-ratings")]
         public IActionResult GetAllActiveRatings()
         {
@@ -44,6 +56,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(course);
         }
 
+        /// <summary>
+        /// Получение всех оценок по имени
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseRatingController>
         [HttpGet("get-all-ratings-by-name")]
         public IActionResult GetAllRatingsByName(string ratingName)
         {
@@ -55,6 +73,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(course);
         }
 
+        /// <summary>
+        /// Получение всех активных оценок по имени
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseRatingController>
         [HttpGet("get-all-active-ratings-by-name")]
         public IActionResult GetAllActiveRatingsByName(string ratingName)
         {
@@ -66,6 +90,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(course);
         }
 
+        /// <summary>
+        /// Получение оценки по идентификатору
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<CourseRatingController>
         [HttpGet("get-ratings-by-id")]
         public IActionResult GetAllActiveRatingsByName(int ratingId)
         {
@@ -81,6 +111,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(course);
         }
 
+        /// <summary>
+        /// Добавление оценки
+        /// </summary>
+        /// <returns></returns>
+        /// <param name="CourseRatingCreateRequest">Модель запроса на создание оценки курса</param>
+
+        // POST api/<CourseRatingController>
         [HttpPost("create-rating/{ratingId}")]
         public IActionResult CreateRating(CourseRatingCreateRequest courseRatingCreateRequest)
         {
@@ -96,6 +133,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Оценка оставлена!");
         }
 
+        /// <summary>
+        /// Редактирование оценки
+        /// </summary>
+        /// <returns></returns>
+        /// <param name="CourseRatingUpdateRequest">Модель запроса на редактирование оценки курса</param>
+
+        // PUT api/<CourseRatingController>
         [HttpPut("update-rating/{ratingId}")]
         public IActionResult UpdateRating(int ratingId, CourseRatingUpdateRequest courseRatingUpdateRequest)
         {
@@ -118,6 +162,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Оценка успешно обновлена!");
         }
 
+        /// <summary>
+        /// Удаление оценки
+        /// </summary>
+        /// <returns></returns>
+
+        // PUT api/<CourseRatingController>
         [HttpDelete("delete-rating/{ratingId}")]
         public IActionResult DeleteRating(int ratingId)
         {
@@ -140,6 +190,10 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Оценка успешно удалена!");
         }
 
+        /// <summary>
+        /// Извлечение айди из токена
+        /// </summary>
+        /// <returns></returns>
         private int ExtractUserIdFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

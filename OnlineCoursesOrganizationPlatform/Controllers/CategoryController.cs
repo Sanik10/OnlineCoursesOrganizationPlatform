@@ -3,6 +3,7 @@ using OnlineCoursesOrganizationPlatform.Models;
 using OnlineCoursesOrganizationPlatform.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace OnlineCoursesOrganizationPlatform.Controllers
@@ -26,7 +27,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// </summary>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // GET api/<CategoryController>
         [HttpGet("get-all-categories")]
         public IActionResult GetAllCategories()
         {
@@ -43,7 +44,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// </summary>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // GET api/<CategoryController>
         [HttpGet("get-all-active-categories")]
         public IActionResult GetAllActiveCategories()
         {
@@ -60,7 +61,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// </summary>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // GET api/<CategoryController>
         [HttpGet("get-category-by-id")]
         public IActionResult GetCategoryById(int id)
         {
@@ -81,7 +82,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// </summary>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // GET api/<CategoryController>
         [HttpGet("get-categories-by-name")]
         public IActionResult GetCategoriesByName(string categoryName)
         {
@@ -98,7 +99,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// </summary>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // GET api/<CategoryController>
         [HttpGet("get-active-categories-by-name")]
         public IActionResult GetActiveCategoriesByName(string categoryName)
         {
@@ -113,10 +114,10 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// <summary>
         /// Создание категории
         /// </summary>
-        /// <param name="CategoryAddRequest">Пользователь</param>
+        /// <param name="CategoryAddRequest">Модель запроса на создание категории</param>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // POST api/<CategoryController>
         [HttpPost("create-category")]
         public IActionResult AddCategory(CategoryAddRequest categoryAddRequest)
         {
@@ -137,12 +138,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// <summary>
         /// Редактирование категории
         /// </summary>
-        /// <param name="CategoryAddRequest">Пользователь</param>
+        /// <param name="CategoryAddRequest">Модель запроса на редактирование категории</param>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // PUT api/<CategoryController>
         [HttpPut("edit-category")]
-        public IActionResult UpdateCategory(int id, CategoryAddRequest categoryAddRequest)
+        public IActionResult UpdateCategory([Required] int id, CategoryAddRequest categoryAddRequest)
         {
             // Проверка наличия токена
             if (string.IsNullOrEmpty(_tokenService.Token))
@@ -167,9 +168,9 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// </summary>
         /// <returns></returns>
 
-        // POST api/<UserController>
+        // DELETE api/<CategoryController>
         [HttpDelete("delete-category")]
-        public IActionResult DeleteCategory(int id)
+        public IActionResult DeleteCategory([Required] int id)
         {
             // Проверка наличия токена
             if (string.IsNullOrEmpty(_tokenService.Token))
@@ -189,6 +190,10 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Категория удалена");
         }
 
+        /// <summary>
+        /// Извлечение айди из токена
+        /// </summary>
+        /// <returns></returns>
         private int ExtractUserIdFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -31,7 +31,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// <summary>
         /// Регистрация в системе
         /// </summary>
-        /// <param name="UserRegistrationRequest">Пользователь</param>
+        /// <param name="UserRegistrationRequest">Модель запроса на регистрацию аккаунта</param>
         /// <returns></returns>
 
         // POST api/<UserController>
@@ -79,7 +79,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// <summary>
         /// Редактирование аккаунта пользователя
         /// </summary>
-        /// <param name="UserUpdateRequest">Пользователь</param>
+        /// <param name="UserUpdateRequest">Модель запроса на изменение данных аккаунта</param>
         /// <returns></returns>
 
         // POST api/<UserController>
@@ -122,7 +122,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// <summary>
         /// Удаление аккаунта пользователя
         /// </summary>
-        /// <param name="UserDeleteRequest">Пользователь</param>
+        /// <param name="UserDeleteRequest">Модель запроса на удаление аккаунта</param>
         /// <returns></returns>
 
         // POST api/<UserController>
@@ -150,6 +150,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok($"Пользователь {existingUser.FirstName} {existingUser.LastName} успешно удален");
         }
 
+        /// <summary>
+        /// Извлечение айди из токена
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         private int ExtractUserIdFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -19,6 +19,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _actionService = actionService;
         }
 
+        /// <summary>
+        /// Получение всех материалов
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<MaterialController>
         [HttpGet("get-all-materials")]
         public IActionResult GetAllMaterials()
         {
@@ -30,6 +36,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(materials);
         }
 
+        /// <summary>
+        /// Получение активных всех материалов
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<MaterialController>
         [HttpGet("get-all-active-materials")]
         public IActionResult GetAllActiveMaterials()
         {
@@ -41,6 +53,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(materials);
         }
 
+        /// <summary>
+        /// Получение всех материалов по имени
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<MaterialController>
         [HttpGet("get-all-materials-by-name")]
         public IActionResult GetAllMaterialsByName(string materialName)
         {
@@ -52,6 +70,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(materials);
         }
 
+        /// <summary>
+        /// Получение всех активных материалов по имени
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<MaterialController>
         [HttpGet("get-all-active-materials-by-name")]
         public IActionResult GetAllActiveMaterialsByName(string materialName)
         {
@@ -63,6 +87,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(materials);
         }
 
+        /// <summary>
+        /// Получение всех материалов по айди курса
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<MaterialController>
         [HttpGet("get-all-materials-by-course-id")]
         public IActionResult GetMaterialsByCourseId(int courseId)
         {
@@ -78,6 +108,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(materials);
         }
 
+        /// <summary>
+        /// Получение всех активных материалов по айди курса
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<MaterialController>
         [HttpGet("get-all-active-materials-by-course-id")]
         public IActionResult GetAllActiveMaterialsByCourseId(int courseId)
         {
@@ -93,6 +129,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(materials);
         }
 
+        /// <summary>
+        /// Получение материала по вйди
+        /// </summary>
+        /// <returns></returns>
+
+        // GET api/<MaterialController>
         [HttpGet("get-material-by-id")]
         public IActionResult GetMaterialById(int materialId)
         {
@@ -108,6 +150,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(material);
         }
 
+        /// <summary>
+        /// Добавление материала
+        /// </summary>
+        /// <returns></returns>
+        /// <param name="CourseMaterialRequest">Модель запроса на создание материала курса</param>
+
+        // POST api/<MaterialController>
         [HttpPost("create-material")]
         public IActionResult AddCourseMaterial(CourseMaterialRequest materialRequest)
         {
@@ -122,6 +171,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Материал успешно добавлен");
         }
 
+        /// <summary>
+        /// Редактирование материала
+        /// </summary>
+        /// <returns></returns>
+        /// <param name="CourseMaterialUpdateRequest">Модель запроса на редактирование материала курса</param>
+
+        // DELETE api/<MaterialController>
         [HttpPut("edit-material")]
         public IActionResult UpdateCourseMaterial(CourseMaterialUpdateRequest materialRequest)
         {
@@ -136,6 +192,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Материал успешно обновлен");
         }
 
+        /// <summary>
+        /// Удаление материала
+        /// </summary>
+        /// <returns></returns>
+
+        // DELETE api/<MaterialController>
         [HttpDelete("delete-material")]
         public IActionResult DeleteCourseMaterial(int materialId)
         {
@@ -151,6 +213,10 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Материал успешно удален");
         }
 
+        /// <summary>
+        /// Извлечение айди из токена
+        /// </summary>
+        /// <returns></returns>
         private int ExtractUserIdFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
