@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OnlineCoursesOrganizationPlatform.Models
 {
-	public class CourseRatingUpdateRequest
-	{
+    public class CourseRatingUpdateRequest
+    {
         [Required]
         public int RatingId { get; set; }
 

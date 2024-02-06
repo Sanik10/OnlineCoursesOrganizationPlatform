@@ -8,7 +8,7 @@ public class WeatherForecastController : ControllerBase
 {
     private static List<string> Summaries = new()
     {
-        "Ford F-150 Trophy Truck", "Ford 1979 Trophy Truck", "MAZ-5309RR", "KamAZ 43509K", "Ford HRX", "Chevrolet Pre-Runner", "Acciona 100% EcoPowered", "^^^^^^^^^^^^^^^^^^", "все эти машины", "уже в игре!", "Trophy race TOP!"
+        "Ford F-150 Trophy Truck","Ford 1979 Trophy Truck","MAZ-5309RR","KamAZ 43509K","Ford HRX","Chevrolet Pre-Runner","Acciona 100% EcoPowered","^^^^^^^^^^^^^^^^^^","все эти машины","уже в игре!","Trophy race TOP!"
     };
 
     //private static List<string> Summaries = new()
