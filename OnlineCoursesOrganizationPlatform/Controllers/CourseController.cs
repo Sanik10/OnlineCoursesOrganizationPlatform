@@ -185,7 +185,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
 
         // DELETE api/<CourseController>
         [HttpDelete("delete-course")]
-        public IActionResult DeleteCourse([Required]int id)
+        public IActionResult DeleteCourse([Required] int id)
         {
             // Проверка наличия токена
             if (string.IsNullOrEmpty(_tokenService.Token))
