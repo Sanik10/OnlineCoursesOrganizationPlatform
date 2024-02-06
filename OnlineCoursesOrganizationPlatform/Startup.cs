@@ -8,6 +8,9 @@ using Pomelo.EntityFrameworkCore.MySql;
 using OnlineCoursesOrganizationPlatform.Models;
 using Microsoft.OpenApi.Models;
 using OnlineCoursesOrganizationPlatform.Services;
+using System.Reflection;
+using System;
+using System.IO;
 
 namespace OnlineCoursesOrganizationPlatform
 {
@@ -25,13 +28,38 @@ namespace OnlineCoursesOrganizationPlatform
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(
                     Configuration.GetConnectionString("DefaultConnection"),
-                    new MySqlServerVersion(new Version(8, 0, 28))));
+                    new MySqlServerVersion(
+                        new Version(8, 0, 28)
+                        )
+                    )
+                );
+
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
 
             services.AddControllersWithViews();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Online courses organization platform", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Платформа организации курсов",
+                    Description = "Позволяет создать или изучить курс",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Контакт:",
+                        Url = new Uri("https://github.com/Sanik10/OnlineCoursesOrganizationPlatform")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Пример лицензии",
+                        Url = new Uri("https://example.com/license")
+                    }
+                });
+
+                c.IncludeXmlComments(xmlPath); // Добавляем XML комментарии в SwaggerGen
             });
+
             services.AddScoped<IActionService, ActionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<CourseService>();
@@ -85,16 +113,18 @@ namespace OnlineCoursesOrganizationPlatform
 
             app.UseAuthorization();
 
+            app.UseSwagger(); // Добавление Swagger в конвейер обработки запросов
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Online courses organization platform V1");
+            }); // Настройка Swagger UI
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Online courses organization platform V1");
             });
         }
     }

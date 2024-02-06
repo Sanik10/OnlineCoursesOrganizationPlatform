@@ -26,7 +26,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _actionService = actionService;
         }
 
-        // Login для генерации токена
+        /// <summary>
+        /// Вход в аккаунт
+        /// </summary>
+        /// <param name="LoginRequest">Пользователь</param>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpPost("login")]
         public IActionResult Login(LoginRequest loginRequest)
         {
@@ -56,7 +62,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok($"Добро пожаловать! Ваш токен успешно сохранен в системе! \nВаш токен:{tokenString}");
         }
 
-        // Login для удаления токена
+        /// <summary>
+        /// Выход из аккаунта
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpPost("logout")]
         public IActionResult Logout()
         {
@@ -79,7 +90,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Вы успешно вышли из системы");
         }
 
-        // извлечение Айди пользователя из токена
+        /// <summary>
+        /// Извлечение айди пользователя из токена
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpGet("extract-user-id")]
         public int ExtractUserIdFromToken(string token)
         {

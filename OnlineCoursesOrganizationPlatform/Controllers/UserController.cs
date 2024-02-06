@@ -28,6 +28,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Регистрация в системе
+        /// </summary>
+        /// <param name="UserRegistrationRequest">Пользователь</param>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpPost("registration")]
         public IActionResult UserRegistration(UserRegistrationRequest userRegistrationRequest)
         {
@@ -69,6 +76,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok($"Вы успешно зарегистрированы! Добро пожаловать, {newUser.FirstName} {newUser.LastName}!");
         }
 
+        /// <summary>
+        /// Редактирование аккаунта пользователя
+        /// </summary>
+        /// <param name="UserUpdateRequest">Пользователь</param>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpPut("edit-data")]
         public IActionResult EditUser(UserUpdateRequest userUpdateRequest)
         {
@@ -105,6 +119,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok($"Данные пользователя {existingUser.FirstName} {existingUser.LastName} успешно обновлены");
         }
 
+        /// <summary>
+        /// Удаление аккаунта пользователя
+        /// </summary>
+        /// <param name="UserDeleteRequest">Пользователь</param>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpDelete("delete")]
         public IActionResult DeleteUser(UserDeleteRequest userDeleteRequest)
         {

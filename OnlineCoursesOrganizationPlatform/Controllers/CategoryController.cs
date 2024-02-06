@@ -21,6 +21,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _actionService = actionService;
         }
 
+        /// <summary>
+        /// Получение всех категорий
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpGet("get-all-categories")]
         public IActionResult GetAllCategories()
         {
@@ -32,6 +38,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(categories);
         }
 
+        /// <summary>
+        /// Получение всех активных категорий
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpGet("get-all-active-categories")]
         public IActionResult GetAllActiveCategories()
         {
@@ -43,6 +55,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(categories);
         }
 
+        /// <summary>
+        /// Получение категории по идентификатору
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpGet("get-category-by-id")]
         public IActionResult GetCategoryById(int id)
         {
@@ -58,6 +76,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(category);
         }
 
+        /// <summary>
+        /// Получение всех категорий включающих в себя имя
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpGet("get-categories-by-name")]
         public IActionResult GetCategoriesByName(string categoryName)
         {
@@ -69,6 +93,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(category);
         }
 
+        /// <summary>
+        /// Получение всех активных категорий включающих в себя имя
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpGet("get-active-categories-by-name")]
         public IActionResult GetActiveCategoriesByName(string categoryName)
         {
@@ -80,6 +110,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok(category);
         }
 
+        /// <summary>
+        /// Создание категории
+        /// </summary>
+        /// <param name="CategoryAddRequest">Пользователь</param>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpPost("create-category")]
         public IActionResult AddCategory(CategoryAddRequest categoryAddRequest)
         {
@@ -97,6 +134,13 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok($"Категория {categoryAddRequest.CategoryName} успешно добавлена");
         }
 
+        /// <summary>
+        /// Редактирование категории
+        /// </summary>
+        /// <param name="CategoryAddRequest">Пользователь</param>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpPut("edit-category")]
         public IActionResult UpdateCategory(int id, CategoryAddRequest categoryAddRequest)
         {
@@ -118,6 +162,12 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             return Ok("Category updated successfully");
         }
 
+        /// <summary>
+        /// Удаление категории по идентификатору
+        /// </summary>
+        /// <returns></returns>
+
+        // POST api/<UserController>
         [HttpDelete("delete-category")]
         public IActionResult DeleteCategory(int id)
         {
