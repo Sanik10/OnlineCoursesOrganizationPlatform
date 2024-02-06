@@ -82,7 +82,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             var userId = ExtractUserIdFromToken(token);
 
             // Удаление токена из сервиса при выходе
-            _tokenService.Token = null;
+            _tokenService.Token = string.Empty;
 
             // Добавляем запись о регистрации в систему действий
             _actionService.LogAction("logout", "user", userId, userId);

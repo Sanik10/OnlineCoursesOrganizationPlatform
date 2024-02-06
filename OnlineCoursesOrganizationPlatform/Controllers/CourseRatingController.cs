@@ -118,7 +118,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         /// <param name="CourseRatingCreateRequest">Модель запроса на создание оценки курса</param>
 
         // POST api/<CourseRatingController>
-        [HttpPost("create-rating/{ratingId}")]
+        [HttpPost("create-rating")]
         public IActionResult CreateRating(CourseRatingCreateRequest courseRatingCreateRequest)
         {
             // Проверка наличия токена
