@@ -38,7 +38,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         public IActionResult GetAllActiveCourses()
         {
             IEnumerable<Course> courses = _courseService.GetAllActiveElements();
-            if(courses == null)
+            if (courses == null)
             {
                 return NotFound("Курсов не найдено");
             }
@@ -70,7 +70,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         [HttpGet("get-course-by-id")]
         public IActionResult GetCourseById(int id)
         {
-            if(id < 0)
+            if (id < 0)
             {
                 return BadRequest("Введите корректный индекс");
             }
@@ -98,7 +98,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             }
 
             var category = _context.Categories.FirstOrDefault(c => c.CategoryId == courseDto.CategoryId);
-            if(category == null)
+            if (category == null)
             {
                 return BadRequest("Указан неправильный идентификатор категории. \nПодсказка: на вкладке Category вы можете узнать все доступные категории \nнажав на кнопку get-all-categories");
             }

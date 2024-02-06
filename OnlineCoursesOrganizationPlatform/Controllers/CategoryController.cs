@@ -25,7 +25,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
         public IActionResult GetAllCategories()
         {
             IEnumerable<Category> categories = _categoryService.GetAllElements();
-            if(categories == null)
+            if (categories == null)
             {
                 return NotFound("Категории не найдены");
             }
@@ -108,7 +108,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             int userId = this.ExtractUserIdFromToken(_tokenService.Token);
 
             var category = _categoryService.GetElementById(id);
-            if(category == null)
+            if (category == null)
             {
                 return NotFound("Категория с таким индексом не найдена");
             }

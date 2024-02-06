@@ -5,6 +5,8 @@ VisualStudioVersion = 25.0.1704.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCoursesOrganizationPlatform", "OnlineCoursesOrganizationPlatform.csproj", "{9D66D0D3-9928-4B5A-8611-8099B61FDF7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServer", "..\BlazorServer\BlazorServer.csproj", "{4084C7FF-3B23-4868-ADC2-E68DBDC1AADD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9D66D0D3-9928-4B5A-8611-8099B61FDF7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D66D0D3-9928-4B5A-8611-8099B61FDF7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D66D0D3-9928-4B5A-8611-8099B61FDF7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4084C7FF-3B23-4868-ADC2-E68DBDC1AADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4084C7FF-3B23-4868-ADC2-E68DBDC1AADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4084C7FF-3B23-4868-ADC2-E68DBDC1AADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4084C7FF-3B23-4868-ADC2-E68DBDC1AADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
