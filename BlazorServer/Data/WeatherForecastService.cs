@@ -1,4 +1,4 @@
-﻿namespace BlazorServer.Data;
+namespace BlazorServer.Data;
 
 public class WeatherForecastService
 {
@@ -17,4 +17,3 @@ public class WeatherForecastService
         }).ToArray());
     }
 }
-

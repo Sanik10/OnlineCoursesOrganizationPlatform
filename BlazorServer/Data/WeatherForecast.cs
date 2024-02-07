@@ -1,4 +1,4 @@
-﻿namespace BlazorServer.Data;
+namespace BlazorServer.Data;
 
 public class WeatherForecast
 {
@@ -10,4 +10,3 @@ public class WeatherForecast
 
     public string? Summary { get; set; }
 }
-

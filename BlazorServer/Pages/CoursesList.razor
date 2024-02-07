@@ -1,0 +1,22 @@
+﻿@page "/courses-list"
+@using Microsoft.EntityFrameworkCore;
+@using OnlineCoursesOrganizationPlatform.Models;
+@inject ApplicationDbContext context
+
+<h2>Курсы</h2>
+
+@foreach (Course course in courses)
+{
+    <h3>Курс: @course.CourseName</h3>
+    <p>Описание: @course.Description</p>
+
+}
+
+@code {
+    private List<Course> courses = new List<Course>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        courses = await context.Courses.ToListAsync();
+    }
+}

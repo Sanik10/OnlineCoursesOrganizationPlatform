@@ -1,0 +1,37 @@
+﻿@page "/registration"
+
+<h3>Регистрация пользователя</h3>
+
+@if (!string.IsNullOrEmpty(registrationMessage))
+{
+    <p>@registrationMessage</p>
+}
+
+<form @onsubmit="RegisterUser">
+    <input type="text" @bind="userRegistrationRequest.FirstName" placeholder="Имя" required />
+    <input type="text" @bind="userRegistrationRequest.LastName" placeholder="Фамилия" required />
+    <input type="email" @bind="userRegistrationRequest.Email" placeholder="Электронная почта" required />
+    <input type="password" @bind="userRegistrationRequest.Password" placeholder="Пароль" required />
+    <button type="submit">Зарегистрироваться</button>
+</form>
+
+@code {
+    private UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
+    private string registrationMessage;
+
+    [Inject]
+    private HttpClient httpClient { get; set; }
+
+    private async Task RegisterUser()
+    {
+        var response = await httpClient.PostAsJsonAsync("api/User/registration", userRegistrationRequest);
+        if (response.IsSuccessStatusCode)
+        {
+            registrationMessage = await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            registrationMessage = "Ошибка при регистрации пользователя.";
+        }
+    }
+}
