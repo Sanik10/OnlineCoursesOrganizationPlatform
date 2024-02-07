@@ -20,7 +20,7 @@ namespace OnlineCoursesOrganizationPlatform.Models
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Display(Name = "Создан пользователем")]
+        [Display(Name = "ID пригласившего")]
         public int? CreatedByUserId { get; set; }
     }
 }

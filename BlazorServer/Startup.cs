@@ -28,7 +28,7 @@ namespace BlazorServer
                     new MySqlServerVersion(new Version(8, 0, 28))
                 );
             });
-            services.AddHttpClient();
+            services.AddHttpClient("apiClient", client => { client.BaseAddress = new Uri("https://localhost:7114/"); });
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();

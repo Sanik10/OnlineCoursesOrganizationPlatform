@@ -8,11 +8,32 @@
 }
 
 <form @onsubmit="RegisterUser">
-    <input type="text" @bind="userRegistrationRequest.FirstName" placeholder="Имя" required />
-    <input type="text" @bind="userRegistrationRequest.LastName" placeholder="Фамилия" required />
-    <input type="email" @bind="userRegistrationRequest.Email" placeholder="Электронная почта" required />
-    <input type="password" @bind="userRegistrationRequest.Password" placeholder="Пароль" required />
-    <button type="submit">Зарегистрироваться</button>
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" @bind="userRegistrationRequest.FirstName" class="form-control" placeholder="Имя" required />
+        </div>
+        <div class="col-md-6">
+            <input type="text" @bind="userRegistrationRequest.LastName" class="form-control" placeholder="Фамилия" required />
+        </div>
+        <div class="col-md-6">
+            <input type="text" @bind="userRegistrationRequest.CreatedByUserId" class="form-control" placeholder="ID пригласившего (если есть)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="email" @bind="userRegistrationRequest.Email" class="form-control" placeholder="Электронная почта" required />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="password" @bind="userRegistrationRequest.Password" class="form-control" placeholder="Пароль" required />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        </div>
+    </div>
 </form>
 
 @code {
@@ -20,11 +41,11 @@
     private string registrationMessage;
 
     [Inject]
-    private HttpClient httpClient { get; set; }
+    private HttpClient apiClient { get; set; }
 
     private async Task RegisterUser()
     {
-        var response = await httpClient.PostAsJsonAsync("api/User/registration", userRegistrationRequest);
+        var response = await apiClient.PostAsJsonAsync("https://localhost:7114/api/User/registration", userRegistrationRequest);
         if (response.IsSuccessStatusCode)
         {
             registrationMessage = await response.Content.ReadAsStringAsync();

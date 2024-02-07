@@ -17,8 +17,6 @@ namespace OnlineCoursesOrganizationPlatform
                 var services = scope.ServiceProvider;
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
 
-                // Здесь можно провести дополнительную инициализацию базы данных, если это необходимо
-
                 dbContext.Database.Migrate(); // Применение миграций базы данных
             }
 

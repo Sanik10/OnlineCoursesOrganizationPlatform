@@ -57,13 +57,14 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
                 LastName = userRegistrationRequest.LastName,
                 Email = userRegistrationRequest.Email,
                 Password = userRegistrationRequest.Password,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                CreatedByUserId = userRegistrationRequest.CreatedByUserId
             };
 
             // Если указан пригласивший пользователь, устанавливаем его айдишник
-            if (userRegistrationRequest.CreatedByUserId != null)
+            if (userRegistrationRequest.CreatedByUserId == 0)
             {
-                newUser.CreatedByUserId = userRegistrationRequest.CreatedByUserId;
+                newUser.CreatedByUserId = null;
             }
 
             _context.Users.Add(newUser);
