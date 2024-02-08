@@ -1,12 +1,6 @@
 ﻿@page "/registration"
 
-<h3>Регистрация пользователя</h3>
-
-@if (!string.IsNullOrEmpty(registrationMessage))
-{
-    <p>@registrationMessage</p>
-}
-
+<!-- СТаря версия регистрации
 <form @onsubmit="RegisterUser">
     <div class="row">
         <div class="col-md-6">
@@ -15,12 +9,9 @@
         <div class="col-md-6">
             <input type="text" @bind="userRegistrationRequest.LastName" class="form-control" placeholder="Фамилия" required />
         </div>
-        <div class="col-md-6">
-            <input type="text" @bind="userRegistrationRequest.CreatedByUserId" class="form-control" placeholder="ID пригласившего (если есть)" />
-        </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-14">
             <input type="email" @bind="userRegistrationRequest.Email" class="form-control" placeholder="Электронная почта" required />
         </div>
     </div>
@@ -31,14 +22,84 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            <input type="text" @bind="userRegistrationRequest.CreatedByUserId" class="form-control" placeholder="ID пригласившего (если есть)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
         </div>
     </div>
 </form>
+    -->
+
+<div style="display: flex; justify-content: space-between; height: 100vh;">
+    <!-- Левая часть страницы для регистрации -->
+    <div style="width: 50%; padding: 20px; border-right: 1px solid #ccc">
+        @if (!string.IsNullOrEmpty(registerMessage))
+        {
+            <p>@registerMessage</p>
+        }
+        <h2>Регистрация</h2>
+        <form>
+            <!-- Форма для регистрации -->
+            <div class="form-group">
+                <label for="firstName">Имя</label>
+                <input type="text" @bind="userRegistrationRequest.FirstName" class="form-control" id="irstName" placeholder="Введите ваше имя" required/>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Фамилия</label>
+                <input type="text" @bind="userRegistrationRequest.LastName" class="form-control" id="lastName" placeholder="Введите вашу фамилию" required/>
+            </div
+
+            <div class="form-group">
+                <label for="email">Email адрес</label>
+                <input type="email" @bind="userRegistrationRequest.Email" class="form-control" id="email" placeholder="Введите ваш email" required/>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" @bind="userRegistrationRequest.Password" class="form-control" id="password" placeholder="Введите ваш пароль" required/>
+            </div>
+            <div class="form-group">
+                <label for="createdByUserId">ID пригласившего пользователя</label>
+                <input type="number" @bind="userRegistrationRequest.CreatedByUserId" class="form-control" id="password" placeholder="Если такого нет - оставьте поле путстым" required/>
+            </div>
+            <div style="padding-top: 10px; justify-content: center;">
+                <button type="submit" class="btn btn-primary" @onclick="RegisterUser">Зарегистрироваться</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Правая часть страницы для входа -->
+    <div style="width: 50%; padding: 20px;">
+        @if (!string.IsNullOrEmpty(loginMessage))
+        {
+            <p>@loginMessage</p>
+        }
+        <h2>Вход</h2>
+        <form>
+            <!-- Форма для входа -->
+            <div class="form-group">
+                <label for="loginEmail">Email адрес</label>
+                <input type="email" @bind="loginRequest.Email" class="form-control" id="loginEmail" placeholder="Введите ваш email" required/>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Пароль</label>
+                <input type="password" @bind="loginRequest.Password" class="form-control" id="loginPassword" placeholder="Введите ваш пароль" required/>
+            </div>
+            <div style="padding-top: 10px; justify-content: center;">
+                <button type="button" class="btn btn-primary" @onclick="LoginUser">Войти</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 @code {
     private UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
-    private string registrationMessage;
+    private string registerMessage = null;
+    private LoginRequest loginRequest = new LoginRequest();
+    private string loginMessage = null;
+
 
     [Inject]
     private HttpClient apiClient { get; set; }
@@ -48,11 +109,24 @@
         var response = await apiClient.PostAsJsonAsync("https://localhost:7114/api/User/registration", userRegistrationRequest);
         if (response.IsSuccessStatusCode)
         {
-            registrationMessage = await response.Content.ReadAsStringAsync();
+            registerMessage = await response.Content.ReadAsStringAsync();
         }
         else
         {
-            registrationMessage = "Ошибка при регистрации пользователя.";
+            registerMessage = "Ошибка при регистрации пользователя.";
+        }
+    }
+
+    private async Task LoginUser()
+    {
+        var response = await apiClient.PostAsJsonAsync("https://localhost:7114/api/Auth/login", loginRequest);
+        if (response.IsSuccessStatusCode)
+        {
+            loginMessage = await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            loginMessage = "Ошибка входа.";
         }
     }
 }

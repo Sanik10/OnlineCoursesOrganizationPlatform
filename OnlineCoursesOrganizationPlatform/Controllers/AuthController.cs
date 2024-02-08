@@ -8,6 +8,7 @@ using OnlineCoursesOrganizationPlatform.Services;
 
 namespace OnlineCoursesOrganizationPlatform.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
@@ -59,7 +60,7 @@ namespace OnlineCoursesOrganizationPlatform.Controllers
             _actionService.LogAction("login", "user", user.UserId, user.UserId);
 
             // Возврат токена доступа клиенту
-            return Ok($"Добро пожаловать! Ваш токен успешно сохранен в системе! \nВаш токен:{tokenString}");
+            return Ok($"Добро пожаловать! Ваш токен успешно сохранен в системе!");
         }
 
         /// <summary>
